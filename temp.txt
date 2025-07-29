@@ -1,0 +1,63 @@
+package com.club69.mediaconvert.service.impl;
+
+import com.club69.commons.mediaconvert.MediaInformationRequest;
+import com.club69.commons.service.S3Service;
+import com.club69.mediaconvert.adapters.FFmpegPacketsAndFramesAdapter;
+import com.club69.mediaconvert.adapters.FFmpegStreamSideDataAdapter;
+import com.club69.mediaconvert.adapters.FractionAdapter;
+import com.club69.mediaconvert.adapters.LowercaseEnumTypeAdapterFactory;
+import com.club69.mediaconvert.core.ffprobe.parser.FFProbeOutputParser;
+import com.club69.mediaconvert.core.ffprobe.serielize.FFmpegFrameOrPacket;
+import com.club69.mediaconvert.core.ffprobe.serielize.FFmpegProbeResult;
+import com.club69.mediaconvert.core.ffprobe.serielize.FFmpegStream;
+import com.club69.mediaconvert.service.MediaInformationService;
+import com.google.gson.GsonBuilder;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.math.Fraction;
+import org.springframework.stereotype.Service;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
+
+@Service
+@RequiredArgsConstructor
+@Slf4j
+public class MediaInformationServiceImpl implements MediaInformationService {
+    private final S3Service s3Service;
+    private final FFProbeOutputParser ffProbeOutputParser;
+
+    @Override
+    public FFmpegProbeResult getMediaInformation(MediaInformationRequest request) {
+        ProcessBuilder builder = new ProcessBuilder("cmd.exe", "/c", "C:\\\\Users\\\\MSUSERSL123\\\\Desktop\\\\project\\\\ffmpeg-master-latest-win64-gpl-shared\\\\bin\\\\ffprobe.exe C:\\\\Users\\\\MSUSERSL123\\\\Desktop\\\\project\\\\video\\\\temp.mp4 -v quiet -print_format json -show_format -show_streams");
+        builder.redirectErrorStream(true);
+
+        Process p = null;
+        FFmpegProbeResult information = null;
+        try {
+            p = builder.start();
+            BufferedReader reader = new BufferedReader(new InputStreamReader(p.getInputStream(), StandardCharsets.UTF_8));
+            String line;
+            StringBuilder output = new StringBuilder();
+
+            while ((line = reader.readLine()) != null) {
+                output.append(line).append("\n");
+            }
+
+            int exitCode = p.waitFor();
+
+            reader.close();
+            information = ffProbeOutputParser.parseOutput(output.toString());
+        } catch (IOException e) {
+            e.printStackTrace();
+            log.error(e.getMessage());
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        } finally {
+            if (p != null) p.destroy();
+        }
+        return information;
+    }
+}
