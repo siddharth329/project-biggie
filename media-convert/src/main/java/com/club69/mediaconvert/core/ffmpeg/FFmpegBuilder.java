@@ -1,11 +1,6 @@
 package com.club69.mediaconvert.core.ffmpeg;
 
-import com.club69.commons.mediaconvert.MediaConversionRequest;
-import com.club69.mediaconvert.core.FFmpegCommand;
-import com.google.common.base.Preconditions;
 import lombok.*;
-
-import java.util.List;
 
 @Data
 @Builder

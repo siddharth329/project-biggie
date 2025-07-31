@@ -1,8 +1,8 @@
 package com.club69.mediaconvert.adapters;
 
-import com.club69.commons.mediaconvert.ffprobe.serialize.FFmpegFrame;
-import com.club69.commons.mediaconvert.ffprobe.serialize.FFmpegFrameOrPacket;
-import com.club69.commons.mediaconvert.ffprobe.serialize.FFmpegPacket;
+import com.club69.mediaconvert.mediaconvert.ffprobe.serialize.FFmpegFrame;
+import com.club69.mediaconvert.mediaconvert.ffprobe.serialize.FFmpegFrameOrPacket;
+import com.club69.mediaconvert.mediaconvert.ffprobe.serialize.FFmpegPacket;
 import com.google.gson.*;
 
 import java.lang.reflect.Type;

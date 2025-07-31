@@ -1,11 +1,11 @@
 package com.club69.mediaconvert.service.impl;
 
-import com.club69.commons.mediaconvert.MediaInformationRequest;
+import com.club69.mediaconvert.dto.MediaInformationRequest;
 import com.club69.commons.exception.ApiException;
 import com.club69.commons.service.S3Service;
 import com.club69.mediaconvert.core.ffprobe.FFProbeBuilder;
 import com.club69.mediaconvert.core.ffprobe.parser.FFProbeOutputParser;
-import com.club69.commons.mediaconvert.ffprobe.serialize.FFmpegProbeResult;
+import com.club69.mediaconvert.mediaconvert.ffprobe.serialize.FFmpegProbeResult;
 import com.club69.mediaconvert.function.ProcessExecutor;
 import com.club69.mediaconvert.function.ProcessExecutorResponse;
 import com.club69.mediaconvert.service.MediaInformationService;

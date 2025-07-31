@@ -13,20 +13,29 @@ import java.util.List;
 import java.util.Map;
 
 @Data
-@Builder
 public class PipelineWorkingMemory {
-    ConversionQueue job;
-    String temporaryDirectoryPath;
-    Boolean status;
-    String errorMessage;
+    private ConversionQueue job;
+    private String temporaryDirectoryPath;
+    private String shakaOutputDirectoryPath;
+    private Boolean status;
+    private String errorMessage;
     private List<List<String>> commandsGenerated;
-    private Map<String, Object> context = new HashMap<>(); // For additional data between steps
-    private Map<PipelineStepName, PipelineStepExecutionTime> executionTiming = new HashMap<>(); // For additional data between steps
-    private List<String> generatedFiles = new ArrayList<>();
+    private List<String> shakaCommand;
+    private Map<String, Object> context; // For additional data between steps
+    private Map<PipelineStepName, PipelineStepExecutionTime> executionTiming; // For additional data between steps
+    private List<String> generatedFiles;
     private PipelineStepName currentStep;
 
-    public void updateStartTimeForStep() { executionTiming.put(currentStep, new PipelineStepExecutionTime()); }
-    public void updateEndTimeForStep() { executionTiming.get(currentStep).setEndTime(LocalDateTime.now()); }
+    public PipelineWorkingMemory(ConversionQueue job) {
+        this.job = job;
+        this.commandsGenerated = new ArrayList<>();
+        this.executionTiming = new HashMap<>();
+        this.context = new HashMap<>();
+        this.status = true;
+    }
+
+    public void updateStartTimeForStep() {executionTiming.put(currentStep, new PipelineStepExecutionTime()); }
+    public void updateEndTimeForStep() {executionTiming.get(currentStep).setEndTime(LocalDateTime.now()); }
     public void addGeneratedFile(String fileName) { generatedFiles.add(fileName); }
     public void addToContext(String key, Object value) { this.context.put(key, value); }
     public <T> T getFromContext(String key, Class<T> type) { return type.cast(this.context.get(key)); }

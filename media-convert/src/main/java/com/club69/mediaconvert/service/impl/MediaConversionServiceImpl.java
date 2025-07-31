@@ -1,9 +1,9 @@
 package com.club69.mediaconvert.service.impl;
 
-import com.club69.commons.mediaconvert.FFmpegCommandGeneratorService;
-import com.club69.commons.mediaconvert.MediaConversionRequest;
+import com.club69.mediaconvert.mediaconvert.FFmpegCommandGeneratorService;
+import com.club69.mediaconvert.dto.MediaConversionRequest;
 import com.club69.commons.exception.ApiException;
-import com.club69.commons.mediaconvert.options.HardwareAcceleration;
+import com.club69.mediaconvert.mediaconvert.options.HardwareAcceleration;
 import com.club69.mediaconvert.model.ConversionQueue;
 import com.club69.mediaconvert.repository.ConversionQueueRepository;
 import com.club69.mediaconvert.service.MediaConversionService;

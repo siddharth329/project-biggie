@@ -1,7 +1,7 @@
 package com.club69.mediaconvert.service;
 
-import com.club69.commons.mediaconvert.MediaInformationRequest;
-import com.club69.commons.mediaconvert.ffprobe.serialize.FFmpegProbeResult;
+import com.club69.mediaconvert.dto.MediaInformationRequest;
+import com.club69.mediaconvert.mediaconvert.ffprobe.serialize.FFmpegProbeResult;
 
 
 public interface MediaInformationService {

@@ -13,7 +13,7 @@ public class DatabaseUpdateStep implements PipelineStep {
 
     @Override
     public PipelineWorkingMemory execute(PipelineWorkingMemory workingMemory) {
-        return null;
+        return workingMemory;
     }
 
 }

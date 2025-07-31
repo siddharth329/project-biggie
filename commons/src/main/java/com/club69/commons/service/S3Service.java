@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.time.Duration;
+import java.util.List;
 
 /**
  * Service interface for S3 operations.
@@ -35,7 +36,23 @@ public interface S3Service {
      * @throws IOException if an I/O error occurs
      */
     MediaFile uploadFile(InputStream inputStream, String filename, String key, String contentType, long size) throws IOException;
-    
+
+    /**
+     * Uploads a file to S3 with a specific content type.
+     *
+     * @param inputStream the input stream of the file
+     * @param filename media file input name
+     * @param bucketName bucket name where to upload the file
+     * @param key the object key
+     * @param contentType the content type
+     * @param size the file size
+     * @return the MediaFile object representing the uploaded file
+     * @throws IOException if an I/O error occurs
+     */
+    MediaFile uploadFile(InputStream inputStream, String filename, String bucketName, String key, String contentType, long size) throws IOException;
+
+    List<String> uploadDirectoryToS3(String directory, String outputPrefix) throws IOException;
+
     /**
      * Generates a pre-signed URL for an S3 object.
      * 

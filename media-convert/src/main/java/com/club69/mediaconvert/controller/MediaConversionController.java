@@ -1,8 +1,7 @@
 package com.club69.mediaconvert.controller;
 
-import com.club69.commons.mediaconvert.MediaConversionRequest;
-import com.club69.commons.mediaconvert.ValidationResult;
-import com.club69.commons.mediaconvert.options.HardwareAcceleration;
+import com.club69.mediaconvert.dto.MediaConversionRequest;
+import com.club69.mediaconvert.mediaconvert.ValidationResult;
 import com.club69.commons.response.ApiResponse;
 import com.club69.mediaconvert.config.FFmpegProcessingConfig;
 import com.club69.mediaconvert.model.ConversionQueue;

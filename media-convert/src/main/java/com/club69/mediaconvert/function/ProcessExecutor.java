@@ -4,10 +4,7 @@ import com.club69.mediaconvert.exception.ProcessExecutorException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -15,12 +12,18 @@ import java.util.stream.Collectors;
 @Slf4j
 @Component
 public class ProcessExecutor {
+    public ProcessExecutorResponse run(List<String> command) {
+        return run(command, null);
+    }
 
-    public ProcessExecutorResponse run(List<String> commands) {
+    public ProcessExecutorResponse run(List<String> commands, String baseDirectory) {
         String output = "";
         int exitCode = -1;
         ProcessBuilder pb = new ProcessBuilder(commands);
+        if (baseDirectory != null) { pb.directory(new File(baseDirectory)); }
         pb.redirectErrorStream(true);
+        // pb.inheritIO();
+
         Process p = null;
 
         try {

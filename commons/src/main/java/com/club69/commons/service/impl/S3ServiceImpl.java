@@ -15,9 +15,12 @@ import software.amazon.awssdk.services.s3.presigner.S3Presigner;
 import software.amazon.awssdk.services.s3.presigner.model.GetObjectPresignRequest;
 import software.amazon.awssdk.services.s3.presigner.model.PresignedGetObjectRequest;
 
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.*;
@@ -42,8 +45,12 @@ public class S3ServiceImpl implements S3Service {
         }
     }
 
-    @Override
     public MediaFile uploadFile(InputStream inputStream, String filename, String key, String contentType, long size) throws IOException {
+        return uploadFile(inputStream, filename, s3Configuration.getBucketName(), key, contentType, size);
+    }
+
+    @Override
+    public MediaFile uploadFile(InputStream inputStream, String filename, String bucketName, String key, String contentType, long size) throws IOException {
         Map<String, String> metadata = new HashMap<>();
         metadata.put("Content-Type", contentType);
         
@@ -77,6 +84,26 @@ public class S3ServiceImpl implements S3Service {
             log.error("Error uploading file to S3. Bucket: {}, Key: {}", s3Configuration.getBucketName(), key, e);
             throw new IOException("Failed to upload file to S3: " + e.getMessage(), e);
         }
+    }
+
+    @Override
+    public List<String> uploadDirectoryToS3(String directory, String outputPrefix) throws IOException {
+        List<String> uploadedFiles = new ArrayList<>();
+
+        // Deleting all the existing files in the public id folder (outputPrefix) in the bucket
+
+        Files
+                .walk(Paths.get(directory))
+                .filter(Files::isRegularFile)
+                .forEach(file -> {
+                    String fileName = file.getFileName().toString();
+                    String s3UploadKey = outputPrefix + "/" + fileName;
+
+                    s3Client.putObject(PutObjectRequest.builder().bucket("original").key(s3UploadKey).build(), RequestBody.fromFile(file));
+                    uploadedFiles.add(fileName);
+                });
+
+        return uploadedFiles;
     }
 
     @Override

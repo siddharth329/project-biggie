@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Comparator;
 import java.util.UUID;
 
 @Slf4j
@@ -34,7 +35,7 @@ public class FileUtils {
             Path tempPath = Paths.get(tempDir);
             if (Files.exists(tempPath)) {
                 Files.walk(tempPath)
-                        .sorted((a, b) -> b.compareTo(a))
+                        .sorted(Comparator.reverseOrder())
                         .forEach(path -> {
                             try {
                                 Files.delete(path);

@@ -8,6 +8,10 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.io.IOException;
+import java.nio.file.Path;
+import java.util.List;
+
 @Component
 @Getter
 @RequiredArgsConstructor
@@ -17,7 +21,19 @@ public class S3UploadStep implements PipelineStep {
 
     @Override
     public PipelineWorkingMemory execute(PipelineWorkingMemory workingMemory) {
-        return null;
+        return uploadToS3(workingMemory);
     }
 
+    private PipelineWorkingMemory uploadToS3(PipelineWorkingMemory workingMemory) {
+        try {
+            List<String> uploadedFiles = s3Service.uploadDirectoryToS3(
+                    Path.of(workingMemory.getTemporaryDirectoryPath(), workingMemory.getShakaOutputDirectoryPath()).toString(),
+                    workingMemory.getJob().getMediaFileId().toString());
+            workingMemory.setGeneratedFiles(uploadedFiles);
+        } catch (IOException e) {
+            throw new RuntimeException("Error uploading files to S3", e);
+        }
+
+        return workingMemory;
+    }
 }
