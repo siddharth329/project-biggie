@@ -17,7 +17,11 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
+import java.io.IOException;
 import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
@@ -68,10 +72,16 @@ public class FFmpegProcessStep implements PipelineStep {
         }
 
         workingMemory.setCommandsGenerated(commands);
+        try {
+            Files.createDirectories(Path.of(Paths.get(workingMemory.getTemporaryDirectoryPath(), "ffmpeg").toString()));
+        } catch (IOException e) {
+            workingMemory.markAsFailed("Error in " + stepName + ": " + e.getMessage());
+            return workingMemory;
+        }
 
         for (int i = 0; i < commands.size(); i++) {
             List<String> command = commands.get(i);
-            ProcessExecutorResponse processOutput =  processExecutor.run(command);
+            ProcessExecutorResponse processOutput =  processExecutor.run(command, workingMemory.getTemporaryDirectoryPath());
             if (!processOutput.getExitCode().equals(0)) {
                 throw new ProcessExecutorException(
                         "Error while Processing Job: " + workingMemory.getJob().getId() + " " +

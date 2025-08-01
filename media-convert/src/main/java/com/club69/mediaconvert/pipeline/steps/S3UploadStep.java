@@ -27,7 +27,7 @@ public class S3UploadStep implements PipelineStep {
     private PipelineWorkingMemory uploadToS3(PipelineWorkingMemory workingMemory) {
         try {
             List<String> uploadedFiles = s3Service.uploadDirectoryToS3(
-                    Path.of(workingMemory.getTemporaryDirectoryPath(), workingMemory.getShakaOutputDirectoryPath()).toString(),
+                    Path.of(workingMemory.getTemporaryDirectoryPath(), "shaka").toString(),
                     workingMemory.getJob().getMediaFileId().toString());
             workingMemory.setGeneratedFiles(uploadedFiles);
         } catch (IOException e) {

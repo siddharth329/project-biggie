@@ -16,7 +16,6 @@ import java.util.Map;
 public class PipelineWorkingMemory {
     private ConversionQueue job;
     private String temporaryDirectoryPath;
-    private String shakaOutputDirectoryPath;
     private Boolean status;
     private String errorMessage;
     private List<List<String>> commandsGenerated;

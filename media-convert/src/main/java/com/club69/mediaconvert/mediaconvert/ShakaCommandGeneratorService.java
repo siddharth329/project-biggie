@@ -10,6 +10,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -283,8 +284,7 @@ public class ShakaCommandGeneratorService {
         List<ShakaPackagerRequest.InputStream> streams = new ArrayList<>();
 
         for (MediaConversionRequest.Profile profile : mediaRequest.getProfile()) {
-            // String inputFile = Path.of(inputDirectory, profile.getFilename()).toString();
-            String inputFile = profile.getFilename();
+            String inputFile = Path.of("ffmpeg", profile.getFilename()).toString();
 
             // Create video stream
             if (profile.getVideoProfile() != null) {

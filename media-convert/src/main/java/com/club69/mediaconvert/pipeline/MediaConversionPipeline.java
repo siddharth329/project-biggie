@@ -66,8 +66,8 @@ public class MediaConversionPipeline {
             return this.executeWithDependency(workingMemory);
 
         } catch (IOException e) {
-            log.error("Error creating temporary directory: {}", e.getMessage());
-            workingMemory.markAsFailed("Error creating temporary directory: " + e.getMessage());
+            log.error("I/O Error : {}", e.getMessage());
+            workingMemory.markAsFailed("I/O Error : " + e.getMessage());
             return workingMemory;
 
         } finally {

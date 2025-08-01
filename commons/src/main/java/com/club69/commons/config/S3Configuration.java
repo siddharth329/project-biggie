@@ -25,9 +25,13 @@ public class S3Configuration {
     private String accessKey;
     private String secretKey;
     private String region;
-    private String bucketName;
+    // private String bucketName;
     private int signedUrlExpirationMinutes = 60;
     private String endpointOverride;
+
+    private String originalMediaFileBucket;
+    private String convertedMediaFileBucket;
+
     
     /**
      * Creates an S3Client bean for interacting with AWS S3.

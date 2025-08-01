@@ -230,13 +230,7 @@ public class FFmpegCommandGeneratorService {
         }
     }
 
-    private String getInputPath(MediaConversionRequest request) {
-        return "s3://" + request.getInputBucketName() + "/" + request.getObjectKey();
-    }
-
     private String getOutputPath(MediaConversionRequest request, MediaConversionRequest.Profile profile, String tempDirectoryPath) {
-//        return "s3://" + request.getOutputBucketName() + "/" +
-//                request.getOutputPrefix() + "/" + profile.getFilename();
-        return Path.of(tempDirectoryPath, profile.getFilename()).toString();
+        return Path.of("ffmpeg", profile.getFilename()).toString();
     }
 }

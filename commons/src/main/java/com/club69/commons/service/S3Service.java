@@ -23,19 +23,7 @@ public interface S3Service {
      * @return the MediaFile object representing the uploaded file
      * @throws IOException if an I/O error occurs
      */
-    MediaFile uploadFile(MultipartFile file, String filename, String key) throws IOException;
-    
-    /**
-     * Uploads a file to S3 with a specific content type.
-     * 
-     * @param inputStream the input stream of the file
-     * @param key the object key
-     * @param contentType the content type
-     * @param size the file size
-     * @return the MediaFile object representing the uploaded file
-     * @throws IOException if an I/O error occurs
-     */
-    MediaFile uploadFile(InputStream inputStream, String filename, String key, String contentType, long size) throws IOException;
+    MediaFile uploadFile(MultipartFile file, String bucketName, String filename, String key) throws IOException;
 
     /**
      * Uploads a file to S3 with a specific content type.

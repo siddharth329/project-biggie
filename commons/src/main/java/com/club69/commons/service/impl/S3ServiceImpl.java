@@ -15,7 +15,6 @@ import software.amazon.awssdk.services.s3.presigner.S3Presigner;
 import software.amazon.awssdk.services.s3.presigner.model.GetObjectPresignRequest;
 import software.amazon.awssdk.services.s3.presigner.model.PresignedGetObjectRequest;
 
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
@@ -39,14 +38,10 @@ public class S3ServiceImpl implements S3Service {
     private final S3Configuration s3Configuration;
 
     @Override
-    public MediaFile uploadFile(MultipartFile file, String filename, String key) throws IOException {
+    public MediaFile uploadFile(MultipartFile file, String bucketName, String filename, String key) throws IOException {
         try (InputStream inputStream = file.getInputStream()) {
-            return uploadFile(inputStream, filename, key, file.getContentType(), file.getSize());
+            return uploadFile(inputStream, filename, bucketName, key, file.getContentType(), file.getSize());
         }
-    }
-
-    public MediaFile uploadFile(InputStream inputStream, String filename, String key, String contentType, long size) throws IOException {
-        return uploadFile(inputStream, filename, s3Configuration.getBucketName(), key, contentType, size);
     }
 
     @Override
@@ -55,7 +50,7 @@ public class S3ServiceImpl implements S3Service {
         metadata.put("Content-Type", contentType);
         
         PutObjectRequest putObjectRequest = PutObjectRequest.builder()
-                .bucket(s3Configuration.getBucketName())
+                .bucket(bucketName)
                 .key(key)
                 .contentType(contentType)
                 .metadata(metadata)
@@ -64,7 +59,7 @@ public class S3ServiceImpl implements S3Service {
         try {
             s3Client.putObject(putObjectRequest, RequestBody.fromInputStream(inputStream, size));
             
-            log.info("File uploaded successfully to S3. Bucket: {}, Key: {}", s3Configuration.getBucketName(), key);
+            log.info("File uploaded successfully to S3. Bucket: {}, Key: {}", bucketName, key);
             
             return MediaFile.builder()
                     .id(UUID.randomUUID())
@@ -72,7 +67,7 @@ public class S3ServiceImpl implements S3Service {
                     .originalFilename(key)
                     .contentType(contentType)
                     .size(size)
-                    .bucketName(s3Configuration.getBucketName())
+                    .bucketName(bucketName)
                     .objectKey(key)
                     .status(MediaFile.MediaStatus.UPLOADED)
                     .type(FileUtils.determineMediaType(contentType))
@@ -81,7 +76,7 @@ public class S3ServiceImpl implements S3Service {
                     .updatedAt(LocalDateTime.now())
                     .build();
         } catch (S3Exception e) {
-            log.error("Error uploading file to S3. Bucket: {}, Key: {}", s3Configuration.getBucketName(), key, e);
+            log.error("Error uploading file to S3. Bucket: {}, Key: {}", bucketName, key, e);
             throw new IOException("Failed to upload file to S3: " + e.getMessage(), e);
         }
     }

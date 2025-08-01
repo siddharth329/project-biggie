@@ -18,8 +18,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+import java.io.IOException;
 import java.net.URL;
+import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.Duration;
 import java.util.List;
 
@@ -58,7 +61,12 @@ public class ShakaPackagerStep implements PipelineStep {
             );
         }
 
-        workingMemory.setShakaOutputDirectoryPath(shakaOutputPath.toString());
+        try {
+            Files.createDirectories(Path.of(Paths.get(workingMemory.getTemporaryDirectoryPath(), "shaka").toString()));
+        } catch (IOException e) {
+            workingMemory.markAsFailed("Error in " + stepName + ": " + e.getMessage());
+            return workingMemory;
+        }
 
         List<String> command = commandGeneratorService.generateCommand(request);
         ProcessExecutorResponse processOutput =  processExecutor.run(command, workingMemory.getTemporaryDirectoryPath());

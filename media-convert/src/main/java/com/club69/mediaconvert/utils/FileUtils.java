@@ -9,6 +9,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Comparator;
+import java.util.List;
 import java.util.UUID;
 
 @Slf4j
@@ -22,8 +23,8 @@ public class FileUtils {
         return createTempDirectory(uniqueId);
     }
 
-    public String createTempDirectory(String uniqueId) throws IOException {
-        Path tempPath = Paths.get(tempDirectory, uniqueId);
+    public String createTempDirectory(String path) throws IOException {
+        Path tempPath = Paths.get(tempDirectory, path);
         Files.createDirectories(tempPath);
 
         log.debug("Created temp directory: {}", tempPath);

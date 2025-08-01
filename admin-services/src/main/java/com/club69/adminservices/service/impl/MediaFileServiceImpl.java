@@ -1,5 +1,6 @@
 package com.club69.adminservices.service.impl;
 
+import com.club69.commons.config.S3Configuration;
 import com.club69.commons.exception.ApiException;
 import com.club69.adminservices.service.MediaFileService;
 import com.club69.commons.model.MediaFile;
@@ -21,7 +22,8 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class MediaFileServiceImpl implements MediaFileService {
     private final MediaFileRepository mediaFileRepository;
-     private final S3Service s3Service;
+    private final S3Service s3Service;
+    private final S3Configuration s3Configuration;
 
     @Override
     public MediaFile getMediaFileById(UUID id) {
@@ -44,7 +46,7 @@ public class MediaFileServiceImpl implements MediaFileService {
                 .trim().replace(" ", "_");
 
         try {
-            MediaFile mediaFile = s3Service.uploadFile(file, fileName, objectKey);
+            MediaFile mediaFile = s3Service.uploadFile(file, s3Configuration.getOriginalMediaFileBucket(), fileName, objectKey);
             return mediaFileRepository.save(mediaFile);
         } catch (IOException e) {
             throw new ApiException("Upload File Failed");
