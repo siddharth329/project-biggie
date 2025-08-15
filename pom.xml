@@ -18,11 +18,9 @@
 
     <modules>
         <module>commons</module>
-        <module>eureka-server</module>
         <module>media-convert</module>
-<!--        <module>cloud-front</module>-->
-<!--        <module>club69</module>-->
         <module>admin-services</module>
+        <module>api-gateway</module>
     </modules>
 
     <properties>

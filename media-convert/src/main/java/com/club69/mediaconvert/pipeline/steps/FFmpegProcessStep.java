@@ -1,7 +1,7 @@
 package com.club69.mediaconvert.pipeline.steps;
 
 import com.club69.mediaconvert.mediaconvert.FFmpegCommandGeneratorService;
-import com.club69.mediaconvert.dto.MediaConversionRequest;
+import com.club69.commons.dto.MediaConversionRequest;
 import com.club69.commons.service.S3Service;
 import com.club69.mediaconvert.config.FFmpegProcessingConfig;
 import com.club69.mediaconvert.exception.ProcessExecutorException;

@@ -1,8 +1,8 @@
 package com.club69.mediaconvert.validation;
 
-import com.club69.mediaconvert.dto.MediaConversionRequest;
+import com.club69.commons.dto.MediaConversionRequest;
 import com.club69.mediaconvert.mediaconvert.ValidationResult;
-import com.club69.mediaconvert.mediaconvert.options.HardwareAcceleration;
+import com.club69.commons.mediaconvert.options.HardwareAcceleration;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 

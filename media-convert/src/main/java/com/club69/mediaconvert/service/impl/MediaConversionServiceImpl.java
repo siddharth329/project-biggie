@@ -1,9 +1,11 @@
 package com.club69.mediaconvert.service.impl;
 
+import com.club69.mediaconvert.dto.ConversionQueueStatus;
+import com.club69.mediaconvert.dto.MediaConversionStatus;
 import com.club69.mediaconvert.mediaconvert.FFmpegCommandGeneratorService;
-import com.club69.mediaconvert.dto.MediaConversionRequest;
+import com.club69.commons.dto.MediaConversionRequest;
 import com.club69.commons.exception.ApiException;
-import com.club69.mediaconvert.mediaconvert.options.HardwareAcceleration;
+import com.club69.commons.mediaconvert.options.HardwareAcceleration;
 import com.club69.mediaconvert.model.ConversionQueue;
 import com.club69.mediaconvert.repository.ConversionQueueRepository;
 import com.club69.mediaconvert.service.MediaConversionService;
@@ -73,5 +75,28 @@ public class MediaConversionServiceImpl implements MediaConversionService {
         return conversionQueueRepository
                 .findById(conversionId)
                 .orElseThrow(() -> new ApiException("Conversion not found with the given Id"));
+    }
+
+    @Override
+    public List<MediaConversionStatus.Response> getConversionStatusByBatch(List<MediaConversionStatus.Request> conversionIds) {
+        return conversionQueueRepository
+                .findAllByIdIn(conversionIds
+                        .stream()
+                        .map(MediaConversionStatus.Request::getConversionId)
+                        .toList()
+                ).stream()
+                .map(conversion -> MediaConversionStatus.Response.builder()
+                        .conversionId(conversion.getId())
+                        .mediaFileId(conversion.getMediaFileId())
+                        .retryCount(conversion.getRetryCount())
+                        .errorMessage(conversion.getErrorMessage())
+                        .status(conversion.getStatus())
+                        .build()
+                ).toList();
+    }
+
+    @Override
+    public ConversionQueueStatus getConversionQueueStatus() {
+        return conversionQueueRepository.getConversionQueueStatus();
     }
 }

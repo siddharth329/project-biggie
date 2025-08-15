@@ -1,0 +1,84 @@
+spring:
+    application:
+        name: api-gateway
+
+    cloud:
+        consul:
+            host: localhost
+            port: 8500
+            discovery:
+                enabled: true
+                register: true
+                service-name: ${spring.application.name}
+                health-check-path: /actuator/health
+                health-check-interval: 10s
+                instance-id: ${spring.application.name}:${random.value}
+
+        gateway:
+            server:
+                webflux:
+                    discovery:
+                        locator:
+                            enabled: true
+
+
+management:
+    endpoints:
+        web:
+            exposure:
+                include: health,info,gateway
+    endpoint:
+        health:
+            show-details: always
+
+logging:
+    level:
+        org:
+            springframework:
+                boot: debug
+                cloud:
+                    gateway: debug
+                    consul: debug
+gateway:
+    discovery:
+        custom:
+            enabled: true
+            route-id-prefix: "custom-"
+            service-path-mapping:
+                media-convert: "media-convert"
+                admin-service: "admin-service"
+            excluded-services:
+                - consul
+                - api-gateway
+            service-configs:
+                media-convert:
+                    admin-enabled: false
+                    health-enabled: true
+                    versioning-enabled: false
+                    supported-versions: ["v1"]
+                    circuit-breaker-enabled: false
+                    rate-limit-enabled: false
+                    rate-limit-rpm: "1000"
+                    custom-headers:
+                        X-Service-Type: "user-management"
+                        X-Data-Classification: "sensitive"
+#                    custom-filters:
+#                        - "RequestLogging"
+#                        - "ResponseTime"
+                admin-service:
+                    admin-enabled: false
+                    health-enabled: true
+                    versioning-enabled: false
+                    supported-versions: [ "v1" ]
+                    circuit-breaker-enabled: false
+                    rate-limit-enabled: false
+                    rate-limit-rpm: "1000"
+                    custom-headers:
+                        X-Service-Type: "user-management"
+                        X-Data-Classification: "sensitive"
+            global:
+                cors-enabled: true
+                logging-enabled: true
+                metrics-enabled: true
+                fallback-uri: "/fallback"
+                default-timeout: 30000

@@ -1,6 +1,6 @@
 package com.club69.mediaconvert.service.impl;
 
-import com.club69.mediaconvert.dto.MediaConversionRequest;
+import com.club69.commons.dto.MediaConversionRequest;
 import com.club69.mediaconvert.model.ConversionQueue;
 import com.club69.mediaconvert.repository.ConversionQueueRepository;
 import com.club69.mediaconvert.service.JobQueueService;

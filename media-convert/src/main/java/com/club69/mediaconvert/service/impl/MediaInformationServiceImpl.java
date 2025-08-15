@@ -1,6 +1,6 @@
 package com.club69.mediaconvert.service.impl;
 
-import com.club69.mediaconvert.dto.MediaInformationRequest;
+import com.club69.commons.dto.MediaInformationRequest;
 import com.club69.commons.exception.ApiException;
 import com.club69.commons.service.S3Service;
 import com.club69.mediaconvert.core.ffprobe.FFProbeBuilder;

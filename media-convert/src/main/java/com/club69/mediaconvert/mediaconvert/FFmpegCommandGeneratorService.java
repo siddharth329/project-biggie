@@ -1,7 +1,7 @@
 package com.club69.mediaconvert.mediaconvert;
 
-import com.club69.mediaconvert.dto.MediaConversionRequest;
-import com.club69.mediaconvert.mediaconvert.options.HardwareAcceleration;
+import com.club69.commons.dto.MediaConversionRequest;
+import com.club69.commons.mediaconvert.options.HardwareAcceleration;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;

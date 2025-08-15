@@ -17,7 +17,7 @@ import java.util.UUID;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/${api.prefix}/mediaFiles")
+@RequestMapping("/mediaFiles")
 public class MediaFileController {
     private final MediaFileService mediaFileService;
 

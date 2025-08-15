@@ -1,6 +1,8 @@
 package com.club69.mediaconvert.controller;
 
-import com.club69.mediaconvert.dto.MediaConversionRequest;
+import com.club69.mediaconvert.dto.ConversionQueueStatus;
+import com.club69.commons.dto.MediaConversionRequest;
+import com.club69.mediaconvert.dto.MediaConversionStatus;
 import com.club69.mediaconvert.mediaconvert.ValidationResult;
 import com.club69.commons.response.ApiResponse;
 import com.club69.mediaconvert.config.FFmpegProcessingConfig;
@@ -54,5 +56,17 @@ public class MediaConversionController {
     public ResponseEntity<ApiResponse> getConversion(@PathVariable UUID conversionId){
         ConversionQueue conversionQueue = mediaConversionService.getConversionById(conversionId);
         return ResponseEntity.ok(new ApiResponse("Success", conversionQueue));
+    }
+
+    @PostMapping("/getConversionStatusByBatch")
+    public ResponseEntity<ApiResponse> getConversionStatusByBatch(@RequestBody List<MediaConversionStatus.Request> conversionIds){
+        List<MediaConversionStatus.Response> list = mediaConversionService.getConversionStatusByBatch(conversionIds);
+        return ResponseEntity.ok(new ApiResponse("Success", list));
+    }
+
+    @GetMapping("/getConversionQueueStatus")
+    public ResponseEntity<ApiResponse> getConversionQueueStatus(){
+        ConversionQueueStatus queueStatus = mediaConversionService.getConversionQueueStatus();
+        return ResponseEntity.ok(new ApiResponse("Success", queueStatus));
     }
 }

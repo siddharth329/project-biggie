@@ -1,6 +1,6 @@
 package com.club69.mediaconvert.model;
 
-import com.club69.mediaconvert.dto.MediaConversionRequest;
+import com.club69.commons.dto.MediaConversionRequest;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
