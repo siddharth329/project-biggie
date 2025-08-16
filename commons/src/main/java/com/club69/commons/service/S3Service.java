@@ -39,7 +39,7 @@ public interface S3Service {
      */
     MediaFile uploadFile(InputStream inputStream, String filename, String bucketName, String key, String contentType, long size) throws IOException;
 
-    List<String> uploadDirectoryToS3(String directory, String outputPrefix) throws IOException;
+    List<String> uploadDirectoryToS3(String bucketName, String directory, String outputPrefix) throws IOException;
 
     /**
      * Generates a pre-signed URL for an S3 object.

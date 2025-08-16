@@ -6,7 +6,7 @@ import com.club69.mediaconvert.function.ProcessExecutor;
 import com.club69.mediaconvert.function.ProcessExecutorResponse;
 import com.club69.mediaconvert.mediaconvert.ShakaCommandGeneratorService;
 import com.club69.mediaconvert.mediaconvert.ValidationResult;
-import com.club69.mediaconvert.mediaconvert.shaka.StreamingProtocol;
+import com.club69.commons.mediaconvert.shaka.StreamingProtocol;
 import com.club69.mediaconvert.model.ConversionQueue;
 import com.club69.mediaconvert.pipeline.PipelineStep;
 import com.club69.mediaconvert.pipeline.PipelineStepName;
@@ -15,15 +15,12 @@ import com.club69.mediaconvert.validation.ShakaPackagerValidationService;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
-import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.time.Duration;
 import java.util.List;
 
 @Component

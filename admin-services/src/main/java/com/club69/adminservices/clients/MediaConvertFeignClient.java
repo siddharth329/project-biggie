@@ -1,7 +1,9 @@
 package com.club69.adminservices.clients;
 
+import com.club69.adminservices.dto.ConversionQueueRequestDto;
 import com.club69.commons.dto.MediaConversionRequest;
 import com.club69.commons.dto.MediaInformationRequest;
+import com.club69.commons.mediaconvert.serialize.FFmpegProbeResult;
 import com.club69.commons.response.ApiResponse;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.ResponseEntity;
@@ -12,8 +14,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 public interface MediaConvertFeignClient {
 
     @PostMapping("/mediaConversion/convert")
-    ResponseEntity<ApiResponse> convert(@RequestBody MediaConversionRequest mediaConversionRequest);
+    ResponseEntity<ApiResponse<ConversionQueueRequestDto>> convert(@RequestBody MediaConversionRequest mediaConversionRequest);
 
-    @PostMapping("/mediaInformation/")
-    ResponseEntity<ApiResponse> mediaInfo(@RequestBody MediaInformationRequest mediaInformationRequest);
+    @PostMapping("/mediaInformation/info")
+    ResponseEntity<ApiResponse<FFmpegProbeResult>> mediaInfo(@RequestBody MediaInformationRequest mediaInformationRequest);
 }

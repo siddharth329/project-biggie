@@ -62,7 +62,6 @@ public class S3ServiceImpl implements S3Service {
             log.info("File uploaded successfully to S3. Bucket: {}, Key: {}", bucketName, key);
             
             return MediaFile.builder()
-                    .id(UUID.randomUUID())
                     .filename(key)
                     .originalFilename(key)
                     .contentType(contentType)
@@ -82,7 +81,7 @@ public class S3ServiceImpl implements S3Service {
     }
 
     @Override
-    public List<String> uploadDirectoryToS3(String directory, String outputPrefix) throws IOException {
+    public List<String> uploadDirectoryToS3(String bucketName, String directory, String outputPrefix) throws IOException {
         List<String> uploadedFiles = new ArrayList<>();
 
         // Deleting all the existing files in the public id folder (outputPrefix) in the bucket
@@ -94,7 +93,9 @@ public class S3ServiceImpl implements S3Service {
                     String fileName = file.getFileName().toString();
                     String s3UploadKey = outputPrefix + "/" + fileName;
 
-                    s3Client.putObject(PutObjectRequest.builder().bucket("original").key(s3UploadKey).build(), RequestBody.fromFile(file));
+                    s3Client.putObject(PutObjectRequest.builder()
+                            .bucket(bucketName)
+                            .key(s3UploadKey).build(), RequestBody.fromFile(file));
                     uploadedFiles.add(fileName);
                 });
 

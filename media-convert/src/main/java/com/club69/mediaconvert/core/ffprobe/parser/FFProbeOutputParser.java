@@ -1,12 +1,12 @@
 package com.club69.mediaconvert.core.ffprobe.parser;
 
-import com.club69.mediaconvert.adapters.FFmpegPacketsAndFramesAdapter;
-import com.club69.mediaconvert.adapters.FFmpegStreamSideDataAdapter;
-import com.club69.mediaconvert.adapters.FractionAdapter;
-import com.club69.mediaconvert.adapters.LowercaseEnumTypeAdapterFactory;
-import com.club69.mediaconvert.mediaconvert.ffprobe.serialize.FFmpegFrameOrPacket;
-import com.club69.mediaconvert.mediaconvert.ffprobe.serialize.FFmpegProbeResult;
-import com.club69.mediaconvert.mediaconvert.ffprobe.serialize.FFmpegStream;
+import com.club69.commons.mediaconvert.adapters.FFmpegPacketsAndFramesAdapter;
+import com.club69.commons.mediaconvert.adapters.FFmpegStreamSideDataAdapter;
+import com.club69.commons.mediaconvert.adapters.FractionAdapter;
+import com.club69.commons.mediaconvert.adapters.LowercaseEnumTypeAdapterFactory;
+import com.club69.commons.mediaconvert.serialize.FFmpegFrameOrPacket;
+import com.club69.commons.mediaconvert.serialize.FFmpegProbeResult;
+import com.club69.commons.mediaconvert.serialize.FFmpegStream;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import org.apache.commons.lang3.math.Fraction;

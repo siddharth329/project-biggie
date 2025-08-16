@@ -5,7 +5,7 @@ import com.club69.commons.exception.ApiException;
 import com.club69.commons.service.S3Service;
 import com.club69.mediaconvert.core.ffprobe.FFProbeBuilder;
 import com.club69.mediaconvert.core.ffprobe.parser.FFProbeOutputParser;
-import com.club69.mediaconvert.mediaconvert.ffprobe.serialize.FFmpegProbeResult;
+import com.club69.commons.mediaconvert.serialize.FFmpegProbeResult;
 import com.club69.mediaconvert.function.ProcessExecutor;
 import com.club69.mediaconvert.function.ProcessExecutorResponse;
 import com.club69.mediaconvert.service.MediaInformationService;
@@ -38,7 +38,9 @@ public class MediaInformationServiceImpl implements MediaInformationService {
         ProcessExecutorResponse processOutput = processExecutor.run(commands);
         if (processOutput.getExitCode().equals(0)) {
             FFmpegProbeResult probeResult = ffProbeOutputParser.parseOutput(processOutput.getOutput());
-            probeResult.format.setFilename(request.getObjectKey()); // Replacing the Presigned URL with Filename
+            if (request.getInformationRequest().isShowFormats()) {
+                probeResult.format.setFilename(request.getObjectKey()); // Replacing the Presigned URL with Filename
+            }
             return probeResult;
         } else {
             throw new ApiException("Something went wrong while getting media information: " + processOutput.getErrorMessage());

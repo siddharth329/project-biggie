@@ -60,7 +60,7 @@ gateway:
                     rate-limit-enabled: false
                     rate-limit-rpm: "1000"
                     custom-headers:
-                        X-Service-Type: "user-management"
+                        X-Service-Type: "internal"
                         X-Data-Classification: "sensitive"
 #                    custom-filters:
 #                        - "RequestLogging"
@@ -74,7 +74,7 @@ gateway:
                     rate-limit-enabled: false
                     rate-limit-rpm: "1000"
                     custom-headers:
-                        X-Service-Type: "user-management"
+                        X-Service-Type: "external"
                         X-Data-Classification: "sensitive"
             global:
                 cors-enabled: true

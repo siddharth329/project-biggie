@@ -22,38 +22,40 @@ public class MediaFileController {
     private final MediaFileService mediaFileService;
 
     @GetMapping("/all")
-    public ResponseEntity<ApiResponse> getMediaFiles(@PageableDefault(page = 0, size = 10) Pageable pageable) {
+    public ResponseEntity<ApiResponse<Page<MediaFile>>> getMediaFiles(@PageableDefault(page = 0, size = 10) Pageable pageable) {
         Page<MediaFile> filePage = mediaFileService.getMediaFiles(pageable);
-        return ResponseEntity.ok(new ApiResponse("Success", filePage));
+        return ResponseEntity.ok(new ApiResponse<>("Success", filePage));
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ApiResponse> getMediaFileById(@PathVariable UUID id) {
+    public ResponseEntity<ApiResponse<MediaFile>> getMediaFileById(@PathVariable UUID id) {
         MediaFile file = mediaFileService.getMediaFileById(id);
-        return ResponseEntity.ok(new ApiResponse("Success", file));
+        return ResponseEntity.ok(new ApiResponse<>("Success", file));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<ApiResponse> delete(@PathVariable UUID id) {
+    public ResponseEntity<ApiResponse<String>> delete(@PathVariable UUID id) {
         mediaFileService.deleteMediaFile(id);
-        return ResponseEntity.ok(new ApiResponse("Success", null));
+        return ResponseEntity.ok(new ApiResponse<>("Success", null));
     }
 
-    @PostMapping(value = "/upload", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<ApiResponse> uploadFile(
+    @PostMapping(value = "/upload",
+            consumes = MediaType.MULTIPART_FORM_DATA_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<ApiResponse<MediaFile>> uploadFile(
             @RequestParam("filename") String filename,
             @RequestParam("file") MultipartFile uploadedFile) {
         MediaFile file = mediaFileService.uploadMediaFile(filename, uploadedFile);
         return ResponseEntity
                 .status(HttpStatus.CREATED)
-                .body(new ApiResponse("Uploaded Successfully", file));
+                .body(new ApiResponse<>("Uploaded Successfully", file));
     }
 
     @PostMapping("/changeAvailability/{id}")
-    public ResponseEntity<ApiResponse> setAvailability(
+    public ResponseEntity<ApiResponse<MediaFile>> setAvailability(
             @PathVariable UUID id,
             @RequestParam("isAvailable") Boolean isAvailable) {
         MediaFile file = mediaFileService.changeMediaFileAvailable(id, isAvailable);
-        return ResponseEntity.ok(new ApiResponse("Success", file));
+        return ResponseEntity.ok(new ApiResponse<>("Success", file));
     }
 }

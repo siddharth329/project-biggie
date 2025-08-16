@@ -25,48 +25,48 @@ public class MediaConversionController {
     private final FFmpegProcessingConfig ffmpegProcessingConfig;
 
     @PostMapping("/convert")
-    public ResponseEntity<ApiResponse> convertMediaFile(@RequestBody MediaConversionRequest request){
+    public ResponseEntity<ApiResponse<ConversionQueue>> convertMediaFile(@RequestBody MediaConversionRequest request){
         ConversionQueue queue = mediaConversionService.convertMediaFile(request);
-        return ResponseEntity.ok(new ApiResponse("Success", queue));
+        return ResponseEntity.ok(new ApiResponse<>("Success", queue));
     }
 
     @PostMapping("/generateCommand")
-    public ResponseEntity<ApiResponse> generateCommand(@RequestBody MediaConversionRequest request){
+    public ResponseEntity<ApiResponse<?>> generateCommand(@RequestBody MediaConversionRequest request){
         ValidationResult validationResult = validationService.validateRequest(request, ffmpegProcessingConfig.getAvailableHardwareAcceleration());
         if (!validationResult.isValid()) {
-            return ResponseEntity.ok(new ApiResponse("Validation Failed", validationResult));
+            return ResponseEntity.ok(new ApiResponse<>("Validation Failed", validationResult));
         }
         List<List<String>> commands = mediaConversionService.generateCommand(request);
-        return ResponseEntity.ok(new ApiResponse("Success", commands));
+        return ResponseEntity.ok(new ApiResponse<>("Success", commands));
     }
 
     @GetMapping("/getConversionsByMediaFileId/{mediaFileId}")
-    public ResponseEntity<ApiResponse> getConversions(@PathVariable UUID mediaFileId){
+    public ResponseEntity<ApiResponse<List<ConversionQueue>>> getConversions(@PathVariable UUID mediaFileId){
         List<ConversionQueue> queues = mediaConversionService.getConversionsForMediaFile(mediaFileId);
-        return ResponseEntity.ok(new ApiResponse("Success", queues));
+        return ResponseEntity.ok(new ApiResponse<>("Success", queues));
     }
 
     @PostMapping("/cancelConversions/{conversionId}")
-    public ResponseEntity<ApiResponse> cancelConversion(@PathVariable UUID conversionId){
+    public ResponseEntity<ApiResponse<Boolean>> cancelConversion(@PathVariable UUID conversionId){
         boolean result = mediaConversionService.cancelConversion(conversionId);
-        return ResponseEntity.ok(new ApiResponse("Success", result));
+        return ResponseEntity.ok(new ApiResponse<>("Success", result));
     }
 
     @GetMapping("/getConversion/{conversionId}")
-    public ResponseEntity<ApiResponse> getConversion(@PathVariable UUID conversionId){
+    public ResponseEntity<ApiResponse<ConversionQueue>> getConversion(@PathVariable UUID conversionId){
         ConversionQueue conversionQueue = mediaConversionService.getConversionById(conversionId);
-        return ResponseEntity.ok(new ApiResponse("Success", conversionQueue));
+        return ResponseEntity.ok(new ApiResponse<>("Success", conversionQueue));
     }
 
     @PostMapping("/getConversionStatusByBatch")
-    public ResponseEntity<ApiResponse> getConversionStatusByBatch(@RequestBody List<MediaConversionStatus.Request> conversionIds){
+    public ResponseEntity<ApiResponse<List<MediaConversionStatus.Response>>> getConversionStatusByBatch(@RequestBody List<MediaConversionStatus.Request> conversionIds){
         List<MediaConversionStatus.Response> list = mediaConversionService.getConversionStatusByBatch(conversionIds);
-        return ResponseEntity.ok(new ApiResponse("Success", list));
+        return ResponseEntity.ok(new ApiResponse<>("Success", list));
     }
 
     @GetMapping("/getConversionQueueStatus")
-    public ResponseEntity<ApiResponse> getConversionQueueStatus(){
+    public ResponseEntity<ApiResponse<ConversionQueueStatus>> getConversionQueueStatus(){
         ConversionQueueStatus queueStatus = mediaConversionService.getConversionQueueStatus();
-        return ResponseEntity.ok(new ApiResponse("Success", queueStatus));
+        return ResponseEntity.ok(new ApiResponse<>("Success", queueStatus));
     }
 }

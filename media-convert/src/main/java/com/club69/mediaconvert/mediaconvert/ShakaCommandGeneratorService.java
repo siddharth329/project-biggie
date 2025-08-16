@@ -2,10 +2,10 @@ package com.club69.mediaconvert.mediaconvert;
 
 import com.club69.commons.dto.MediaConversionRequest;
 import com.club69.mediaconvert.dto.ShakaPackagerRequest;
-import com.club69.mediaconvert.mediaconvert.shaka.EncryptionMethod;
-import com.club69.mediaconvert.mediaconvert.shaka.KeyRotationPeriod;
-import com.club69.mediaconvert.mediaconvert.shaka.SegmentDuration;
-import com.club69.mediaconvert.mediaconvert.shaka.StreamingProtocol;
+import com.club69.commons.mediaconvert.shaka.EncryptionMethod;
+import com.club69.commons.mediaconvert.shaka.KeyRotationPeriod;
+import com.club69.commons.mediaconvert.shaka.SegmentDuration;
+import com.club69.commons.mediaconvert.shaka.StreamingProtocol;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;

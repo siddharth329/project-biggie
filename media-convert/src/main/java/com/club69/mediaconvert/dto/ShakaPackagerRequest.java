@@ -1,9 +1,9 @@
 package com.club69.mediaconvert.dto;
 
-import com.club69.mediaconvert.mediaconvert.shaka.EncryptionMethod;
-import com.club69.mediaconvert.mediaconvert.shaka.KeyRotationPeriod;
-import com.club69.mediaconvert.mediaconvert.shaka.SegmentDuration;
-import com.club69.mediaconvert.mediaconvert.shaka.StreamingProtocol;
+import com.club69.commons.mediaconvert.shaka.EncryptionMethod;
+import com.club69.commons.mediaconvert.shaka.KeyRotationPeriod;
+import com.club69.commons.mediaconvert.shaka.SegmentDuration;
+import com.club69.commons.mediaconvert.shaka.StreamingProtocol;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
